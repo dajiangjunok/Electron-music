@@ -1,0 +1,1 @@
+export const CHANGE_SEARCH_INFO = 'CHANGE_SEARCH_INFO';
