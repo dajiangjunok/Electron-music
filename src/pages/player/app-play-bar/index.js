@@ -1,4 +1,4 @@
-import React, { memo, useRef, useEffect, useState, useCallback } from 'react'
+import React, { memo, useRef, useState, useCallback, useLayoutEffect } from 'react'
 import { shallowEqual, useDispatch, useSelector } from 'react-redux'
 
 import { formatMinuteSecond } from '@/utils/format-utils';
@@ -21,12 +21,6 @@ export default memo(function YJPlayer () {
   const dispatch = useDispatch();
   const { currentSong, songInfo, songList, showPanel, sequence, songIndex } = useSelector(state => {
     return {
-      // currentSong: state.getIn(["player", "currentSong"]),
-      // songInfo: state.getIn(["player", "songInfo"]),
-      // songList: state.getIn(["player", "songList"]),
-      // showPanel: state.getIn(["player", "showPanel"]),
-      // sequence: state.getIn(["player", "sequence"]),
-      // songIndex: state.getIn(["player", "songIndex"])
       currentSong: state.player.currentSong,
       songInfo: state.player.songInfo,
       songList: state.player.songList,
@@ -51,14 +45,14 @@ export default memo(function YJPlayer () {
   const [currentTime, setCurrentTime] = useState(0);
   const [progress, setProgress] = useState(0);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const arr = Object.keys(currentSong);
     if (arr.length !== 0) {
       dispatch(changeSongInfoAction(currentSong.id));
     }
   }, [dispatch, currentSong])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const arr = Object.keys(currentSong);
     if (arr.length !== 0) {
       setTimeout(() => {
@@ -68,7 +62,7 @@ export default memo(function YJPlayer () {
     }
   }, [currentSong])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (Object.keys(currentSong).length === 0 && songList.length !== 0) {
       dispatch(changeCurrentSongAction(songList[0]))
       dispatch(changeLrcAction(songList[0].id))
@@ -226,7 +220,7 @@ export default memo(function YJPlayer () {
           </div>
           <div className="info">
             {
-              (songInfo[0] && songInfo[0].url) ? (<div className="song">
+              ((songInfo && songInfo[0]) && (songInfo && songInfo[0].url)) ? (<div className="song">
                 <span className="song-name">{musicName}</span>
                 <span className="singer-name">{musician}</span>
               </div>) : (<div className="song"> <span className="song-name">暂无版权</span></div>)

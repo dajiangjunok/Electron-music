@@ -1,4 +1,4 @@
-import React, { memo, useEffect } from 'react';
+import React, { memo, useLayoutEffect } from 'react';
 
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getSizeImage } from '@/utils/format-utils';
@@ -14,7 +14,6 @@ import {
   getTopRankingsOriginMusicAction
 } from '@/pages/discover/c-pages/recommend/store/actionCreators';
 import { TopRankingWrapper } from './style';
-
 
 export default memo(function YJTopRanking (props) {
   // props and state
@@ -43,7 +42,7 @@ export default memo(function YJTopRanking (props) {
   }, shallowEqual)
 
   // other hooks
-  useEffect(() => {
+  useLayoutEffect(() => {
     switch (info.ToplistType) {
       case 'S':
         dispatch(getTopRankingsTopMusicAction(info.id))
@@ -72,11 +71,11 @@ export default memo(function YJTopRanking (props) {
     <TopRankingWrapper>
       <div className="header">
         <div className="image">
-          <img src={getSizeImage(state.rankings.coverImgUrl)} alt="" />
+          <img src={getSizeImage(state.rankings && state.rankings.coverImgUrl)} alt="" />
           <a href="/todo" className="image_cover">ranking</a>
         </div>
         <div className="info">
-          <a href="/todo">{state.rankings.name}</a>
+          <a href="/todo">{state.rankings && state.rankings.name}</a>
           <div>
             <button className="btn play sprite_02"></button>
             <button className="btn favor sprite_02"></button>
@@ -85,7 +84,7 @@ export default memo(function YJTopRanking (props) {
       </div>
       <div className="list">
         {
-          state.rankings.tracks && state.rankings.tracks.slice(0, 10).map((item, index) => {
+          state.rankings && state.rankings.tracks && state.rankings.tracks.slice(0, 10).map((item, index) => {
             return (
               <div key={item.id} className="list-item">
                 <div className="rank">{index + 1}</div>
