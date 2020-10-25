@@ -17,7 +17,6 @@ import store from './store';
 
 export default memo(function App () {
 
-
   return (
     <div>
       <Provider store={store}>
