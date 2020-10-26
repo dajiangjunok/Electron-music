@@ -1,12 +1,10 @@
 // 引入模块
 const url = require('url');
 const path = require('path');
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain } = require('electron');
 
 // 开发环境
 const isDev = process.env.NODE_ENV === 'development';
-
-
 
 // 保持对window对象的全局引用，如果不这么做的话，当JavaScript对象被
 // 垃圾回收的时候，window对象将会自动的关闭
@@ -15,8 +13,9 @@ let win = null;
 function createWindow () {
   // 创建浏览器窗口。
   win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1366,
+    height: 768,
+    // frame: false,
     webPreferences: {
       // 使用 preload 预加载模块, 可以把 nodeIntegration 禁用掉, 在 preload 阶段是可以访问 node 的,
       // 这样做是因为即使启用了 node, webpack 在进行打包的时候也不会识别 node 模块和 electron 模块,
@@ -45,7 +44,22 @@ function createWindow () {
     // 取消引用 window 对象，如果你的应用支持多窗口的话，
     // 通常会把多个 window 对象存放在一个数组里面，
     // 与此同时，你应该删除相应的元素。
-    win = null;
+    dialog.showMessageBox({
+      type: 'info',
+      title: 'Information',
+      defaultId: 0,
+      message: '确定要关闭吗？',
+      buttons: ['最小化', '直接退出']
+    }, (index) => {
+      if (index === 0) {
+        e.preventDefault();		//阻止默认行为，一定要有
+        win.minimize();	//调用 最小化实例方法
+      } else {
+        win = null;
+        //app.quit();	//不要用quit();试了会弹两次
+        app.exit();		//exit()直接关闭客户端，不会执行quit();
+      }
+    })
   });
 }
 
@@ -70,6 +84,10 @@ app.on('activate', () => {
     createWindow();
   }
 });
+
+ipcMain.on('window-close', (e, arg) => {
+  app.quit()
+})
 
 // 在这个文件中，你可以续写应用剩下主进程代码。
 // 也可以拆分成几个文件，然后用 require 导入。

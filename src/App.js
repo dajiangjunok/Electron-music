@@ -23,10 +23,12 @@ export default memo(function App () {
         <ConfigProvider locale={zhCN}>
           <HashRouter>
             <YJAppHeader />
-            {/* <PersistGate loading={null} persistor={persistStore(store)}> */}
-            {renderRoutes(routes)}
-            {/* </PersistGate> */}
-            <YJAppFooter />
+            <div className="content-body">
+              {/* <PersistGate loading={null} persistor={persistStore(store)}> */}
+              {renderRoutes(routes)}
+              {/* </PersistGate> */}
+              <YJAppFooter />
+            </div>
             <YJPlayer />
           </HashRouter>
         </ConfigProvider>

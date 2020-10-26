@@ -111,16 +111,23 @@ body, textarea, select, input, button {
   background: url(../img/sprite_cover.png) no-repeat -145px -57px;
 }
 
+/* APP中样式 */
+.content-body{
+  height:89vh;
+  overflow: auto;
+}
+
 /* 滚动条样式 */
 /*修改滚动条样式*/
 div::-webkit-scrollbar{
   width:10px;
   height:10px;
   /**/
+  background-color: #fff;
 }
 div::-webkit-scrollbar-track{
   background: rgb(33, 33, 33);
-  border-radius:2px;
+  /* border-radius:2px; */
 }
 div::-webkit-scrollbar-thumb{
   background: #333;
@@ -132,3 +139,25 @@ div::-webkit-scrollbar-thumb:hover{
 div::-webkit-scrollbar-corner{
   background: #179a16;
 }
+
+.content-body::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+  /**/
+}
+.content-body::-webkit-scrollbar-track{
+  background: rgba(255, 255,255,.6);
+  opacity: 0.3;
+  border-radius:2px;
+}
+.content-body::-webkit-scrollbar-thumb{
+  background: #ccc;
+  border-radius:10px;
+}
+.content-body::-webkit-scrollbar-thumb:hover{
+  background: #333;
+}
+.content-body::-webkit-scrollbar-corner{
+  background: #179a16;
+}
+ 

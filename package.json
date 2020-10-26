@@ -56,5 +56,11 @@
     "cross-env": "^7.0.2",
     "electron": "^7.0.0",
     "electron-builder": "22.4.0"
+  },
+  "build": {
+    "appId": "codewang",
+    "win": {
+      "icon": "public/ico/sad.ico"
+    }
   }
 }

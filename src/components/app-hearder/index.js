@@ -62,7 +62,7 @@ export default memo(function YJAppHeader () {
   const menu = (
     <Menu>
       <Menu.Item>
-        <span>{user.userInfo.nickname}</span>
+        <span>{user.userInfo && user.userInfo.nickname}</span>
       </Menu.Item>
       <Menu.Item danger onClick={e => layout()}>退出</Menu.Item>
     </Menu>
@@ -72,7 +72,12 @@ export default memo(function YJAppHeader () {
     // const uid = user.userInfo.userId
     dispatch(layoutAction())
   }
-
+  // electron 关闭窗口
+  const closeWindow = () => {
+    const ipcRenderer = window.electron.ipcRenderer;
+    console.log(ipcRenderer);
+    ipcRenderer.send('window-close', 'ping');
+  }
   // HOOKS
   useEffect(() => {
     return () => {
@@ -116,13 +121,16 @@ export default memo(function YJAppHeader () {
             user.isLogin ? (
               <Dropdown overlay={menu} arrow={true}>
                 <div className="user-login">
-                  <img className="hearder-logo" src={user.userInfo.avatarUrl} alt="" />
+                  <img className="hearder-logo" src={user.userInfo && user.userInfo.avatarUrl} alt="" />
                   {/* <span>{user.userInfo.nickname}</span> */}
                 </div>
               </Dropdown>
             ) : <a href="#/" className="search-login" onClick={showModal}>登录</a>
           }
-
+          {/* 关闭electron窗口 */}
+          <div className="closeWindow" onClick={closeWindow}>
+            <i className="iconfont icon-guanbi"></i>
+          </div>
         </HeaderRight>
       </div>
       <div className="divider"></div>

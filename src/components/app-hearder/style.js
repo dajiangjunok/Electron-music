@@ -143,4 +143,19 @@ export const HeaderRight = styled.div`
     width:30px;
     border-radius:50%;
   }
+
+  .closeWindow{
+    position:absolute;
+    right:-80px;
+    top:-8px;
+    .icon-guanbi{
+      font-size:30px;
+      color:#eee;
+
+      &:hover{
+        color:#fff;
+      }
+    }
+    cursor: pointer;
+  }
 `
